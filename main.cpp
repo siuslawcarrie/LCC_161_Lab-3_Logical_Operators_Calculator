@@ -34,10 +34,11 @@
 #include <iomanip>
 #include <unistd.h>
 #include <limits>
+#include <iomanip>
 
 using namespace std;
 
-//void userWelcome(); //CHECK
+void userWelcome(); //CHECK
 
 
 
@@ -53,7 +54,7 @@ char user_operator_func(); //user operator
 char validateOperator(char d); //function to validate operator is valid
 int num_1();
 
-int num_2();
+int num_2();//do not need these functions, validation is getting the integers
 
 int validation_integer(int min, int max);
 
@@ -66,26 +67,28 @@ int main() {
 
     int isInteger1, isInteger2;
     int is_not_zero;
-    int result; // variables for calculation results
+    float result; // variables for calculation results
     // userWelcome();
 
     cout << "This will perform a calculation on two numbers. "
             "You will be asked to enter two separate numbers and an operator. " << endl;
 
-    isInteger1 = num_1();
+    isInteger1 = num_1();//call validate function directly in main, assign to integer1 CHANGE to isFLOAT//change all #s to float,
+    //use validation_float function
     isValidOperator = user_operator_func();
     isInteger2 = num_2();
 
 
     //performCalculation(userOperator, isInteger1, isInteger2);
     switch (isValidOperator) {
+        //cout << fixed << setprecision(2);
         case
             PLUS:
             result = isInteger1 + isInteger2;
             break;
         case
             MINUS:
-            result = isInteger1 - isInteger1;
+            result = isInteger1 - isInteger2;
             break;
         case
             MULTIPLY:
@@ -107,7 +110,7 @@ int main() {
     }
     else
     {
-        cout << isInteger1 << " " << isValidOperator << " " <<is_not_zero << " = " << result << endl;
+        cout <<setprecision(2)<< isInteger1 << " " << isValidOperator << " " <<is_not_zero << " = " << result << endl;
     }
 
 
@@ -119,8 +122,7 @@ void userWelcome() {
     cout << "Welcome to Carrie's Number Calculator! What is your name? ";
     cin >> user_name;
     cout << "Hi " << user_name << "! Let's play!" << endl;
-    return;
-}
+  }
 
 int num_1() {
 
@@ -153,17 +155,15 @@ int validation_integer(int min, int max) //function to validate integers
 {
     int number;
     cin >> number;
-    while (!cin or (number < min) or (number > max)) {
+    if (!cin or (number < min) or (number > max)) {
 // Explain error not entering an integer
-        cout << "I'm sorry that's not a valid entry. Please enter a number between " << min << "and " << max << ": ";
-// Clear input stream
-        cin.clear();
-// Discard previous input
-        cin.ignore(123, '\n');
-        cin >> number;
-        cout << endl;
+        cout << "I'm sorry that's not a valid entry.";
     }
-    return number;
+    else{
+            return number;
+        }
+
+
 }
 
 char validateOperator(char d) {
@@ -179,8 +179,7 @@ char validateOperator(char d) {
                 valid = true;
                 break;
             default:
-                cout << "I'm sorry that's not a valid entry. Please enter a valid operator: ";
-                cin >> d;
+                cout << "I'm sorry that's not a valid entry.";
                 break;
 
         }
@@ -189,12 +188,14 @@ char validateOperator(char d) {
 }
 
 int isNotZero_func(int m) {
-    while (m == 0) {
-        cout << "I'm sorry. You can't divide by zero. Please enter a different divisor: " << endl;
-        cin >> m;
+    if (m == 0) {
+        cout << "I'm sorry. You can't divide by zero. " << endl;
+
     }
     return m;
-    }
+}
+
+
 
 
 
