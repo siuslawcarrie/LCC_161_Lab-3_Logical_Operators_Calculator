@@ -41,12 +41,7 @@ terminate.
 */
 
 #include <iostream>
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <iomanip>
-#include <unistd.h>
-#include <limits>
 
 using namespace std;
 
@@ -58,34 +53,36 @@ const char MINUS = '-';
 const char MULTIPLY = '*';
 const char DIVIDE = '/';
 const char MODULUS = '%';
+const int BIG_NUM = INT_MAX;
+const char END_LINE = '\n';
+
 bool valid;
+
 //END CONSTANTS
 // FUNCTIONS
 char user_operator_func(); //user operator
 char validateOperator(char d); //function to validate operator is valid
 int num_1();
+
 int num_2();//do not need these functions, validation is getting the integers
 int validation_integer(int min, int max);
+
 int isNotZero_func(int m);
 //END FUNCTIONS
 
 int main() {
     int m;//to test for zero when entering division and second number = 0
     char isValidOperator;
-    int result; // variables for calculation results
     int result_divide;
     // userWelcome();
-
     cout << "This will perform a calculation on two numbers. "
             "You will be asked to enter two separate numbers and an operator. " << endl;
 
-    int isInteger1 = static_cast<float>(num_1());//call validate function directly in main, assign to integer1, change to float
-    int isInteger2 = static_cast<float>(num_2());//call validate function directly in main, assign to integer1, change to float
-    int is_not_zero = static_cast<float>(isNotZero_func(m));//call validate function directly in main, assign to integer1, change to float
-
-    //use validation_float function
+    int isInteger1 = (num_1());//call validate function directly in main, assign to integer1,
     isValidOperator = user_operator_func();
-
+    int isInteger2 = (num_2());//call validate function directly in main, assign to integer1,
+    int is_not_zero = (isNotZero_func(m));//call validate function directly in main, assign to integer1
+    int result; // variables for calculation results
     //performCalculation(userOperator, isInteger1, isInteger2);
     switch (isValidOperator) {
         //call validate function directly in main, assign to integer1, change to float
@@ -110,8 +107,10 @@ int main() {
         case
             DIVIDE:
             is_not_zero = isNotZero_func(isInteger2);
-            result = isInteger1 / is_not_zero;
-
+            auto float_is_not_zero = float(is_not_zero);
+            auto float_is_Integer1 = float(isInteger1);
+            auto result_divide = float_is_Integer1 / float_is_not_zero;
+            cout << isInteger1 << " " << isValidOperator << " " << is_not_zero << " = " << fixed << setprecision(2) << result_divide << endl;
             break;
 
     }
@@ -119,16 +118,12 @@ int main() {
 
         cout << isInteger1 << " " << isValidOperator << " " << isInteger2 << " = " << result << endl;
     }
-    else if (isValidOperator == '%'){
+    else if (isValidOperator == '%') {
 
-        cout << isInteger1 << " " << isValidOperator << " " <<is_not_zero << " = " << result << endl;;
+        cout << isInteger1 << " " << isValidOperator << " " << is_not_zero << " = " << result << endl;;
     }
-    else
-    {
 
-        cout << isInteger1 << " " << isValidOperator << " " <<is_not_zero << " = " <<fixed<<setprecision(2)<< result << endl;
-    }
-    return 0;
+
 }
 
 void userWelcome() {
@@ -136,7 +131,7 @@ void userWelcome() {
     cout << "Welcome to Carrie's Number Calculator! What is your name? ";
     cin >> user_name;
     cout << "Hi " << user_name << "! Let's play!" << endl;
-  }
+}
 
 int num_1() {
 
@@ -154,7 +149,8 @@ char user_operator_func() {
 
     return validateOperator(userOperator);
 }
- int num_2() {
+
+int num_2() {
 
     cout << "Please enter your second number: ";
 
@@ -172,85 +168,59 @@ int validation_integer(int min, int max) //function to validate integers
 // Explain error not entering an integer
         cout << "I'm sorry that's not a valid entry.";
     }
-    else{
-            return number;
-        }
-
-
+    else {
+        return number;
+    }
 }
-
-char validateOperator(char d) {
-
-    valid = false;
-    while (!valid) {
-        switch (d) {
-            case PLUS:
-            case MINUS:
-            case MULTIPLY:
-            case DIVIDE:
-            case MODULUS:
-                valid = true;
-                break;
-            default:
-                cout << "I'm sorry that's not a valid entry.";
-                break;
+    int isNotZero_func(int m) {
+        if (m == 0) {
+            cout << "I'm sorry. You can't divide by zero. " << endl;
 
         }
+        return m;
     }
-    return d;
+
+
+
+    char validateOperator(char d) {
+
+        valid = true;
+        do {
+
+
+            // set the input flag to valid
+            valid = true;
+
+            // using switch statement
+            switch (d) {
+                case PLUS:
+                case MINUS:
+                case MULTIPLY:
+                case DIVIDE:
+                case MODULUS:
+                default:
+                    cout << "Invalid input, try again" << endl;
+                    valid = false;
+            }
+
+            // clear input buffer in case they entered more than one char
+            cin.ignore(BIG_NUM, END_LINE);
+
+        }
+            while (!valid);
+
+                return d;
+
+
+
+
+
+
+}
+return 0;
 }
 
-int isNotZero_func(int m) {
-    if (m == 0) {
-        cout << "I'm sorry. You can't divide by zero. " << endl;
-
-    }
-    return m;
-}
 
 
 
-
-
-
-/*
-
-            int performCalculation(char
-            'z', int
-            x, int
-            y)
-            {
-                switch (z) {
-                    case
-                        z = '+'
-                        :
-                        result = num_1 + num_2;
-
-                        break;
-                    case
-                        z = '-'
-                        :
-                        result = num_1 - num_2;
-                        break;
-                    case
-                        z = '*'
-                        :
-                        result = num_1 * num_2;
-                        break;
-                    case
-                        z = '/'
-                        :
-                        result = num_1 / num_2;
-                        break;
-                    case
-                        z = '%'
-                        :
-                        result = num_1 % num_2;
-                        break;
-                }
-
-
-                return
-                        result;
-*/
 
